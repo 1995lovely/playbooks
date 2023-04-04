@@ -1,0 +1,43 @@
+---
+
+   - name: create a user
+     hosts: all
+     become: true
+    
+
+     tasks: 
+     - name: add sam user
+       user:
+        
+         name: sam
+         password:  "{{ redhat@123 }}"
+        
+
+     - name: add dean user
+       user:
+      
+         name: dean
+         password: "{{ hello@123 }}"
+      
+
+     - name: install httpd package
+       yum:
+        
+         name: httpd
+         state: latest
+
+     - name: service start 
+       service:
+
+         name: httpd
+         state: started
+
+     - name: create a index file
+       file:
+        
+         path: /var/www/html/index.html
+         state: vim
+
+           
+     
+          
