@@ -1,0 +1,22 @@
+---
+
+  - name: kvm to vm installation play-book
+    hosts: all
+    become: true
+
+   
+    tasks: 
+    - name: install kvm package 
+      yum: 
+
+        name: qemu-kvm
+        state: present
+
+    - name: download ios file 
+      get_url:
+
+        url: http://centos.excellmedia.net/7.9.2009/isos/x86_64/CentOS-7-x86_64-DVD-2207-02.iso
+        dest: /var/lib/libvirt/images
+
+    
+            
