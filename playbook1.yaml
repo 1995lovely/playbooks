@@ -1,0 +1,28 @@
+---
+ - name: set hostame and ip and print both in hosts file
+   hosts: all
+   become: true
+   tasks:
+     - name: set hostname
+       ansible.builtin.hostname:
+         
+         name: client.example.com
+
+     - name: print ip address and hostname in hosts
+       shell:
+         cmd: echo "$(ifconfig | grep netmask | grep -v 127|awk '{print $2}') client.example.com" >> /etc/hosts
+
+     - name: install http server
+       yum:
+         name: httpd
+         state: latest
+
+     - name: service restart of http
+       service:
+         name: httpd
+         state: started
+         enabled: yes
+           
+
+
+    
