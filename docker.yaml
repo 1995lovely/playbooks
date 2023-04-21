@@ -1,0 +1,28 @@
+---
+ 
+ - name: docker built image with automation
+   hosts: all
+   become: true
+   
+
+   tasks:
+   - name: install docker
+     yum:
+       name: docker
+       state: present
+       enabled: yes
+
+   - name: docker pull image from docker hub
+     shell:
+      command: shell docker pull nirbhaisingh/freshfarm
+      dest: /root
+
+   - name: built image 
+     docker_image:
+      name: imgbuild
+      tag: lovely.1
+      port: 8080
+      source: build
+      build:
+        path: /temp/build
+        dockerfile: Dockerfile
