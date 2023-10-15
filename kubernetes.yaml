@@ -1,0 +1,24 @@
+---
+- name: installation of kubenetes with ansible
+  hosts: all
+  tasks:
+   - name: add kubernetes repository
+     yum_repository:
+       name: Kubernetes
+       description: AppStream
+       baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+       enabled: 1
+       gpgcheck: 1
+       repo_gpgcheck: 1
+       gpgkey: https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+   - name: install  kubelet kubeadm kubectl
+     yum:
+       name:  kubelet,kubeadm,kubectl
+       state: latest
+   - name: enable services
+     service: 
+       name: kubelet
+       state: started
+       enabled: yes
+       
+       
