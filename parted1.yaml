@@ -1,0 +1,31 @@
+- name: create lvm with ansible playbook
+  hosts: dev
+  become: true
+  tasks:
+   - name: create pv
+     parted:
+      device: /dev/vdb
+      number: 1
+      state: present
+      part_end: 1GiB
+      flags: ['lvm']
+   - name: create volume group
+     lvg:
+      vg: newvol
+      pvs: /dev/vdb1
+      pesize: 24m
+   - name: Create a logical volume of 18m .
+     lvol:
+       vg: newvol
+       lv: newlv
+       size: 432m
+   - name: format lv
+     filesystem:
+      fstype: xfs
+      dev: /dev/newvol/newlv
+   - name: mount with /data/newlv
+     mount:
+      path: /data/newlv
+      src: /dev/newvol/newlv
+      fstype: xfs
+      state: mounted
