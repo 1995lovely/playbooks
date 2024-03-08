@@ -1,0 +1,22 @@
+---
+- name: Install sonarqube with ansible
+  hosts: all
+  become: true
+  tasks:
+    - name: Download sonarqube zip file
+      get_url:
+       url: https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.9.4.87374.zip
+       dest: /root
+
+    - name: Unarchive a file that is already on the remote machine
+      unarchive:
+       src: /root/sonarqube-9.9.4.87374.zip
+       dest: /usr/local/bin
+       remote_src: yes
+
+   # (Important note)
+   # Follow this absolute path to open main directory   (cd /usr/local/bin/sonarqube-9.9.4.87374/bin/linux-x86-64)
+   # Execute that command (./sonar.sh) 
+   # Sonarqube starting 
+   # In the last step (with the machine ip address:9000 run on the webpage )
+   # Important note (Sonarqube is running on 9000 port by default)
