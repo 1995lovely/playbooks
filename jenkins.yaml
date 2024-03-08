@@ -1,0 +1,25 @@
+---
+- name: jenkins installation
+  hosts: all
+  become: true
+  tasks:
+  - name: Install java pacakage
+    yum:
+     name: java-1.8.0-openjdk-devel
+     state: latest
+  - name: create jenkins repository
+    yum_repository:
+     name: jenkins-ci                             
+     description: AppStream
+     baseurl: http://pkg.jenkins.io/redhat-stable
+     enabled: 1
+     gpgcheck: 0
+  - name: Install jenkins
+    yum:
+     name: jenkins
+     state: present
+  - name: Start service of jenkins
+    service:
+     name: jenkins
+     state: started
+     enabled: true
